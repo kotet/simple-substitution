@@ -1,0 +1,8 @@
+{
+	"name": "encrypt",
+	"description": "単一換字式暗号器",
+	"copyright": "Copyright © 2015, kotet",
+	"authors": ["kotet"],
+	"dependencies": {
+	}
+}
