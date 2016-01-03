@@ -4,11 +4,20 @@ import std.range;
 import std.random;
 import std.ascii;
 import std.conv;
+import std.array;
 import std.string;
 
-const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 void main(string[] args)
 {
+	string key;
+	if(args.length == 1){
+		"引数が足りません\n
+			Usage: ./encrypt {KEYPHRASE}".writeln;
+		return;
+	} else {
+		key = keygen(args[1]);
+	}
+
 	string plain = "";
 	{
 		string tmp;
@@ -16,20 +25,19 @@ void main(string[] args)
 			plain ~= tmp;
 		}
 	}
-
-	int[] key = iota(uppercase.length).map!(to!int).array;
-	if(args.length == 1){
-		randomShuffle(key);
-	} else {
-		key = keygen(args[1]);
-	}
 	key.writeln;
 }
 
-int[] keygen(string phrase){
-	return phrase
-		.toUpper
-		.array
-		.filter!(c => (uppercase.indxOf(c.to!string) != -1))
-		.map!(c => uppercase.indexOf(c.to!string).to!int);
+string keygen(string phrase){
+	string tmp = phrase.toUpper
+		.filter!(c => ((cast(string)uppercase).indexOf(c.to!string) != -1))
+		.map!(c => c.to!string)
+		.array.join ~ uppercase;
+	string result;
+	foreach(i,c;tmp){
+		if(tmp.indexOf(c) == i){
+			result ~= c;
+		}
+	}
+	return result;
 }
